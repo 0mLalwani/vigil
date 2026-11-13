@@ -1,2 +1,21 @@
-const str = "WAJFGOIAWHJ";
-console.log(str);
+import app from "./src/app";
+import { connectDB } from "./src/config/database";
+
+const BACKEND_PORT = process.env.PORT ?? 6969;
+const MONGO_DB_URI = process.env.MONGO ?? null;
+
+if (!MONGO_DB_URI) {
+  throw new Error("add 'MONGO' (mongo db uri) in .env");
+}
+try {
+  connectDB(MONGO_DB_URI).then(() => {
+    app.listen(BACKEND_PORT, () => {
+      console.log(
+        `express server server started on port ${BACKEND_PORT} ${String.fromCodePoint(0x2713)}`,
+      );
+    });
+  });
+} catch (err) {
+  console.log(err);
+  process.exit(1);
+}
