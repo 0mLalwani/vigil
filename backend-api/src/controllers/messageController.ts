@@ -3,7 +3,7 @@ import type { AuthenticatedRequest } from "../middlewares/auth";
 import { ChatModel } from "../models/Chat";
 import { MessageModel } from "../models/Message";
 
-export default async function getChatMessages(
+export async function getChatMessages(
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction,
@@ -12,16 +12,19 @@ export default async function getChatMessages(
     const mongoId = req.userId;
     const chatId = req.params.chatId;
 
-    const chat = ChatModel.findOne({
-      _id: { $eq: chatId },
-      participants: mongoId, //but this is an array of 2+ users, how is this gonna be equal to just single mongoId
+    const chat = await ChatModel.findOne({
+      _id: chatId,
+      participants: mongoId,
     });
 
     if (!chat) {
       res.status(404).json({ message: "Chat not found" });
       return;
     }
-    const messages = await MessageModel.find({ $eq: { chatId: chatId } });
+    const messages = await MessageModel.find({ chatId: chatId })
+      .populate("senderId", "name email avatar")
+      .sort({ createdAt: 1 });
+
     res.json(messages);
   } catch (err) {
     res.status(500);
