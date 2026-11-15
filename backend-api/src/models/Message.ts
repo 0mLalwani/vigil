@@ -35,4 +35,4 @@ const messageSchema = new mongoose.Schema<Message>(
 //index on oldest->newest chatmessages id and creation date
 messageSchema.index({ chatId: 1, createdAt: 1 });
 
-export const message = mongoose.model("Message", messageSchema);
+export const MessageModel = mongoose.model("Message", messageSchema);
