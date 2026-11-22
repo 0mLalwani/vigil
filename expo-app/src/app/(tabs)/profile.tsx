@@ -1,12 +1,15 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { useAuth } from "@clerk/expo";
+import { Pressable, Text, View } from "react-native";
 
 const ProfileTab = () => {
+  const { signOut } = useAuth();
   return (
     <View>
-      <Text>ProfileTab</Text>
+      <Pressable className="w-full bg-red-400 p-4" onPress={() => signOut()}>
+        <Text className="text-center">Signout</Text>
+      </Pressable>
     </View>
-  )
-}
+  );
+};
 
-export default ProfileTab
+export default ProfileTab;

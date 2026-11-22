@@ -1,14 +1,21 @@
-import { Redirect, Stack } from 'expo-router'
-import { useAuth } from '@clerk/expo';
+import { Redirect, Stack } from "expo-router";
+import { useAuth } from "@clerk/expo";
+import { ActivityIndicator } from "react-native";
 
 const AuthLayout = () => {
-  const { isSignedIn } = useAuth()
-  if (isSignedIn) {
-    return <Redirect href="/(tabs)" />
+  const { isLoaded, isSignedIn } = useAuth();
+  if (!isLoaded) {
+    return (
+      <ActivityIndicator
+        className="flex h-screen items-center justify-center"
+        size="large"
+      />
+    );
   }
-  return (
-    <Stack screenOptions={{ headerShown: false }} />
-  )
-}
+  if (isSignedIn) {
+    return <Redirect href="/(tabs)/chat" />;
+  }
+  return <Stack screenOptions={{ headerShown: false }} />;
+};
 
-export default AuthLayout
+export default AuthLayout;

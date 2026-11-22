@@ -8,4 +8,3 @@ export const connectDB = async (uri: string) => {
     console.log(e);
   }
 };
-connectDB(process.env.MONGO as string);

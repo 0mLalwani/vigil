@@ -9,17 +9,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: '#E8EDF0', //main bg
+        background: "#E8EDF0", //main bg
         surface: {
-          DEFAULT: '#F6F8F9', //divs n stuff
-          raised: '#FFFFFF', //inputs on top of cards
+          DEFAULT: "#F6F8F9", //divs n stuff
+          raised: "#FFFFFF", //inputs on top of cards
         },
         foreground: {
-          DEFAULT: '#1F2A33', //main text (mist)
-          muted: '#566574', //timestamps
+          DEFAULT: "#1F2A33", //main text (mist)
+          muted: "#566574", //timestamps
         },
       },
-    }
+    },
   },
   plugins: [],
 };
