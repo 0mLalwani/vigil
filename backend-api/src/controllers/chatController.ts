@@ -57,7 +57,7 @@ export async function getChat(
       .populate("lastMessageId");
     if (!newChat) {
       newChat = new ChatModel({
-        participants: { $all: [mongoId, otherParticipantid] },
+        participants: [mongoId, otherParticipantid],
       });
       await newChat.save();
       newChat = await newChat.populate("participants", "name email avatar");
