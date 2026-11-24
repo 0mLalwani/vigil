@@ -26,7 +26,7 @@ export async function getAllChats(
       return chatObj;
     });
 
-    res.status(200).json(chats);
+    res.status(200).json(formattedChats);
   } catch (err) {
     res.status(500);
     next(err);
