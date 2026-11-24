@@ -4,4 +4,4 @@ import getUsers from "../controllers/userController";
 
 export const userRouter = Router();
 
-userRouter.get("/", authMiddleware, getUsers); // GET /api/users/
+userRouter.get("/", authMiddleware, getUsers); // GET /api/user/

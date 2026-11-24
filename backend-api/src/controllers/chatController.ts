@@ -17,6 +17,15 @@ export async function getAllChats(
       .populate("lastMessageId")
       .sort({ lastMessageAt: -1 });
 
+    //remove user's own participant object from chat participants array
+    const formattedChats = chats.map((chat) => {
+      const chatObj = chat.toObject();
+      chatObj.participants = chatObj.participants.filter((participant) => {
+        return String(participant._id) !== String(req.userId);
+      });
+      return chatObj;
+    });
+
     res.status(200).json(chats);
   } catch (err) {
     res.status(500);
@@ -31,13 +40,14 @@ export async function getChat(
 ) {
   try {
     const mongoId = req.userId;
-    const otherParticipantid = req.userId;
-    if (!otherParticipantid || !Types.ObjectId.isValid(otherParticipantid)) {
-      res
-        .status(404)
-        .json({
-          message: "You must specify a valid userId for a chat participant",
-        });
+    const { userId: otherParticipantid } = req.params;
+    if (
+      !otherParticipantid ||
+      !Types.ObjectId.isValid(String(otherParticipantid))
+    ) {
+      res.status(404).json({
+        message: "You must specify a valid userId for a chat participant",
+      });
     }
 
     let newChat = await ChatModel.findOne({
