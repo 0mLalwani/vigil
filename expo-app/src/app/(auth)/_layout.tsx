@@ -1,5 +1,5 @@
-import { Redirect, Stack } from "expo-router";
 import { useAuth } from "@clerk/expo";
+import { Redirect, Stack } from "expo-router";
 import { ActivityIndicator } from "react-native";
 
 const AuthLayout = () => {

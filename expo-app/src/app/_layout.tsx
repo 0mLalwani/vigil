@@ -1,10 +1,10 @@
-import { Stack, Tabs } from "expo-router";
-import "../../global.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SafeAreaView } from "react-native-safe-area-context";
+import AuthSync from "@/components/AuthSync";
 import { ClerkProvider } from "@clerk/expo";
 import { tokenCache } from "@clerk/expo/token-cache";
-import AuthSync from "@/components/AuthSync";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Stack } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import "../../global.css";
 
 const queryClient = new QueryClient();
 
@@ -18,8 +18,15 @@ export default function RootLayout() {
         <AuthSync />
         <SafeAreaView style={{ flex: 1 }}>
           <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(auth)" />
-            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="(auth)" options={{ animation: "fade" }} />
+            <Stack.Screen name="(tabs)" options={{ animation: "fade" }} />
+            <Stack.Screen
+              name="find-chat"
+              options={{
+                animation: "fade_from_bottom",
+                presentation: "modal",
+              }}
+            />
           </Stack>
         </SafeAreaView>
       </QueryClientProvider>

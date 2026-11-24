@@ -1,7 +1,7 @@
-import { View, Text, ActivityIndicator } from "react-native";
-import { Redirect, Tabs } from "expo-router";
-import { Ionicons } from "@react-native-vector-icons/ionicons";
 import { useAuth } from "@clerk/expo";
+import { Ionicons } from "@react-native-vector-icons/ionicons";
+import { Redirect, Tabs } from "expo-router";
+import { ActivityIndicator } from "react-native";
 
 export default function TabLayout() {
   const { isLoaded, isSignedIn } = useAuth();
@@ -15,12 +15,10 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "blue",
-        tabBarShowLabel: false,
         headerShown: false,
         tabBarStyle: {
           backgroundColor: "#E8EDF0",
-          paddingTop: 8,
-          height: 60,
+          height: 40,
         },
         sceneStyle: {
           backgroundColor: "#F6F8F9",
