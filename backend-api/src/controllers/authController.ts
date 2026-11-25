@@ -41,7 +41,7 @@ export async function authCallback(
     }
 
     if (await UserModel.exists({ clerkId })) {
-      res.sendStatus(200);
+      res.status(200).json({ message: "Welcome" });
       return;
     }
 
@@ -68,7 +68,7 @@ export async function authCallback(
       { upsert: true, runValidators: true },
     );
 
-    res.status(200);
+    res.status(200).json({ message: "Created" });
     return;
   } catch (err) {
     res.status(500);

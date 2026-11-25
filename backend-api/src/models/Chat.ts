@@ -11,19 +11,21 @@ interface Chat {
 
 const chatSchema = new mongoose.Schema<Chat>(
   {
-    participants: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: "User",
-        required: true,
-        validate: {
-          validator(participant_arr) {
-            return participant_arr.length >= 2;
-          },
-          message: "A chat must have atleast 2 participants.",
+    participants: {
+      type: [
+        {
+          type: mongoose.Types.ObjectId,
+          ref: "User",
         },
+      ],
+      required: true,
+      validate: {
+        validator(participant_arr) {
+          return participant_arr.length >= 2;
+        },
+        message: "A chat must have atleast 2 participants.",
       },
-    ], //array of ids that get their id value from the User collections _id
+    }, //array of ids that get their id value from the User collections _id
     lastMessageId: {
       type: mongoose.Types.ObjectId,
       ref: "Chat",
