@@ -15,15 +15,13 @@ export default function FindChat() {
     queryKey: ["users"],
     queryFn: async () => {
       const { data }: { data: User[] } = await api.get("/api/user");
-      console.log(data);
       return data;
     },
   });
   //handle creation
   const mutation = useMutation({
     mutationFn: async (participantId: string) => {
-      const { data, status } = await api.post(`/api/chat/${participantId}`);
-      console.log("mutation sent to backend: status, ", status);
+      const { data } = await api.post(`/api/chat/${participantId}`);
       return data;
     },
     onSuccess: () => {

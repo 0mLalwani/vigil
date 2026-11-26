@@ -54,23 +54,17 @@ export const useSocketStorage = create<SocketState>((set, get) => ({
     set({ socket, queryClient });
 
     //special event by socketio
-    socket.on("connect_error", (err) => {
-      console.log("Socket connect_error event triggered: ", err.message);
-    });
+    socket.on("connect_error", (err) => {});
     socket.on("connect", () => {
-      console.log("socket Connected to API! Socket id: ", socket.id);
       set({ socket, isConnected: true });
     });
     socket.on("disconnect", () => {
-      console.log("socket disConnected to API! Socket id: ", socket.id);
       set({ isConnected: false });
     });
     socket.on("online-users", (userIds: string[]) => {
-      console.log("Currently online users socket ids: ", userIds);
       set({ onlineUsers: new Set(userIds) });
     });
     socket.on("new-user-connected", (joinedUserId: string) => {
-      console.log("New user connected, socket id: ", joinedUserId);
       set((state) => {
         return {
           onlineUsers: new Set([...state.onlineUsers, joinedUserId]),
@@ -78,16 +72,13 @@ export const useSocketStorage = create<SocketState>((set, get) => ({
       });
     });
     socket.on("user-disconnected", (leftUserId: string) => {
-      console.log("User disconnected, socket id: ", leftUserId);
       set((state) => {
         const newOnlineUsers = new Set(state.onlineUsers);
         newOnlineUsers.delete(leftUserId);
         return { onlineUsers: newOnlineUsers };
       });
     });
-    socket.on("error", (errorMessage: string) => {
-      console.error("Error message received on socket: ", errorMessage);
-    });
+    socket.on("error", (errorMessage: string) => {});
     //VERY CONFUSING SYNTAX
     socket.on("new-message", (message: Message) => {
       //senderId is actually a whole populated sender object
@@ -205,7 +196,6 @@ export const useSocketStorage = create<SocketState>((set, get) => ({
     socket.emit("send-message", { roomId: chatId, message: messageContent });
     //in case our optimistic update fails server side
     socket.once("error", (message: string) => {
-      console.log("ERROR RECEIVED: ", message);
       queryClient.setQueryData<Message[]>(["messages", chatId], (old) => {
         if (!old) return [];
         return old.filter((msg) => msg._id !== optimisticMessage._id);

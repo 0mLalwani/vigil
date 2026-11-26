@@ -8,7 +8,6 @@ export function useUser() {
     queryKey: ["currentUser"],
     queryFn: async () => {
       const { data } = await api.get<User>("/api/auth/me");
-      console.log("Here's response from /auth/me: ", data);
       return data;
     },
   });

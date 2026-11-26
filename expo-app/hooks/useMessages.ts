@@ -8,7 +8,6 @@ export function useMessages(chatId: string) {
     queryKey: ["messages", chatId],
     queryFn: async () => {
       const { data } = await api.get<Message[]>(`/api/message/${chatId}`);
-      console.log("Messages from server for chat: ", chatId, "are :", data);
       return data;
     },
     enabled: Boolean(chatId),

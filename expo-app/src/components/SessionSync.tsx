@@ -12,29 +12,16 @@ export default function SessionSync() {
   const connect = useSocketStorage((store) => store.connect);
   const disconnect = useSocketStorage((store) => store.disconnect);
 
-  const {
-    data: synced,
-    error,
-    status,
-    failureCount,
-  } = useQuery({
+  const { data: synced } = useQuery({
     queryKey: ["auth-sync", sessionId],
     enabled: isLoaded && isSignedIn && Boolean(sessionId),
     retry: 3,
     staleTime: Infinity,
     queryFn: async () => {
       const res = await api.post("/api/auth/callback");
-      console.log("[auth-sync] response", res.status, res.data);
       return res.data as { message: string };
     },
   });
-  console.log(
-    "[auth-sync] state",
-    status,
-    failureCount,
-    synced?.message,
-    error,
-  );
 
   useEffect(() => {
     if (!isSignedIn || !synced) return;

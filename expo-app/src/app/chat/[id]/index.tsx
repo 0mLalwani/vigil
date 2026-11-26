@@ -11,6 +11,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useMessages } from "../../../../hooks/useMessages";
 import { useUser } from "../../../../hooks/useUser";
 import { useSocketStorage } from "../../../../lib/socket";
@@ -45,7 +46,7 @@ export default function ChatPage() {
     sendMessage,
     sendTyping,
   } = useSocketStorage();
-
+  const insets = useSafeAreaInsets();
   const isOnline = Boolean(participantId && onlineUsers.has(participantId));
   const isTyping = typingUsers.get(chatId) === participantId;
   const canSend = messageText.trim().length > 0 && isConnected && !!currentUser;
@@ -99,7 +100,11 @@ export default function ChatPage() {
   };
 
   return (
-    <KeyboardAvoidingView className="flex-1 bg-background" behavior="padding">
+    <KeyboardAvoidingView
+      className="flex-1 bg-background"
+      behavior="padding"
+      keyboardVerticalOffset={insets.top}
+    >
       <View className="flex-row items-center gap-3 border-b border-black/5 bg-surface px-4 py-3">
         <Pressable onPress={() => router.back()} hitSlop={8}>
           <Ionicons name="chevron-back-outline" size={26} color="#1F2A33" />
@@ -142,7 +147,7 @@ export default function ChatPage() {
           scrollViewRef.current?.scrollToEnd({ animated: false })
         }
       >
-        {isLoading && !messages?.length ? (
+        {isLoading && !messages ? (
           <ActivityIndicator className="mt-8" />
         ) : messages?.length ? (
           messages.map((msg) => {
