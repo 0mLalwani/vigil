@@ -1,13 +1,12 @@
+import { clerkMiddleware } from "@clerk/express";
 import express from "express";
+import { errorHandler } from "./middlewares/error";
 import { authRouter } from "./routes/authRoute";
 import { chatRouter } from "./routes/chatRoute";
 import { messageRouter } from "./routes/messageRoute";
 import { userRouter } from "./routes/userRoute";
-import { clerkMiddleware } from "@clerk/express";
-import { errorHandler } from "./middlewares/error";
 
 const app = express();
-
 app.use(clerkMiddleware());
 
 app.use("/api/auth", authRouter);

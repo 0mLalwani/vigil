@@ -1,7 +1,7 @@
 import type { NextFunction, Response } from "express";
+import { Types } from "mongoose";
 import type { AuthenticatedRequest } from "../middlewares/auth";
 import { ChatModel } from "../models/Chat";
-import { Types } from "mongoose";
 
 //for the chat list
 export async function getAllChats(
@@ -45,7 +45,7 @@ export async function getChat(
       !otherParticipantid ||
       !Types.ObjectId.isValid(String(otherParticipantid))
     ) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "You must specify a valid userId for a chat participant",
       });
     }
