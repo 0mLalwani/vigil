@@ -33,6 +33,8 @@ export const initializeSocket = (httpServer: Server) => {
       }
       //attach user obj from db to socket data
       socket.data.user = user;
+      //BRUH
+      next();
     } catch (err) {
       return next(new Error("Authentication error"));
     }
