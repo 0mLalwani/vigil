@@ -1,5 +1,3 @@
-# Vigil
-
 A small real-time chat app with **Clerk** sign-in, live **Socket.io** messages, typing indicators, online presence.
 
 ## Features
