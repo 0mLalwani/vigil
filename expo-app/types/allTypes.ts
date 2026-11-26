@@ -14,23 +14,24 @@ export interface MessageSender {
 
 export interface Message {
   _id: string;
-  chat: string;
-  sender: MessageSender | string;
+  chatId: string;
+  senderId: MessageSender;
   messageContent: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ChatLastMessage {
   _id: string;
-  sender: MessageSender | string;
+  chatId: string;
+  senderId: string;
   messageContent: string;
-  createdAt: Date;
+  createdAt: string;
 }
 export interface Chat {
   _id: string;
   participants: MessageSender[];
-  lastMessage: ChatLastMessage | null;
+  lastMessageId: ChatLastMessage | null;
   lastMessageAt: string;
-  createdAt: Date;
+  createdAt: string;
 }

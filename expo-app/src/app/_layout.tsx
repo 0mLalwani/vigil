@@ -1,4 +1,4 @@
-import AuthSync from "@/components/AuthSync";
+import SessionSync from "@/components/SessionSync";
 import { ClerkProvider } from "@clerk/expo";
 import { tokenCache } from "@clerk/expo/token-cache";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -15,7 +15,7 @@ export default function RootLayout() {
       tokenCache={tokenCache}
     >
       <QueryClientProvider client={queryClient}>
-        <AuthSync />
+        <SessionSync />
         <SafeAreaView style={{ flex: 1 }}>
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="(auth)" options={{ animation: "fade" }} />

@@ -10,7 +10,8 @@ import {
   Text,
   View,
 } from "react-native";
-import { useApi } from "../../../lib/axios";
+import { useApi } from "../../../hooks/useAxiosApi";
+import { useSocketStorage } from "../../../lib/socket";
 import { Chat } from "../../../types/allTypes";
 
 export default function ChatTab() {
@@ -26,13 +27,19 @@ export default function ChatTab() {
     queryFn: async () => {
       const { data: apiResponse }: { data: Chat[] } =
         await api.get("/api/chat");
+      console.log(apiResponse);
       return apiResponse;
     },
   });
-  const goToChat = (chatId: string) => {
+  const goToChat = (chat: Chat) => {
     router.push({
       pathname: "/chat/[id]",
-      params: { id: chatId },
+      params: {
+        id: chat._id,
+        participantId: chat.participants[0]._id,
+        name: chat.participants[0].name,
+        avatar: chat.participants[0].avatar,
+      },
     });
   };
   if (isLoading) {
@@ -83,20 +90,21 @@ function ChatItem({
   handlePress,
 }: {
   chat: Chat;
-  handlePress: (chatId: string) => void;
+  handlePress: (chat: Chat) => void;
 }) {
   const participant = chat.participants[0];
-  const isOnline = true;
-  const isTyping = true;
-  const hasUnread = true;
+  const { onlineUsers, typingUsers, unreadChats } = useSocketStorage();
+  const isOnline = onlineUsers.has(participant._id);
+  const isTyping = typingUsers.get(chat._id);
+  const hasUnread = unreadChats.has(chat._id);
   return (
     <Pressable
       className="m-4 flex flex-row items-center gap-4 rounded-xl border border-gray-300 p-4 active:opacity-60"
-      onPress={() => handlePress(chat._id)}
+      onPress={() => handlePress(chat)}
     >
       <View className="relative">
         <Image
-          source={chat.participants[0].avatar}
+          source={participant.avatar}
           style={{ height: 48, width: 48, borderRadius: 999 }}
         />
         {isOnline && (
@@ -106,7 +114,7 @@ function ChatItem({
       <View className="flex-1">
         <View className="flex flex-row items-center justify-between">
           <Text className={`text-xl font-extrabold text-foreground`}>
-            {chat.participants[0].name}
+            {participant.name}
           </Text>
           <Text className="text-gray-500">
             {formatDistanceToNow(new Date(chat.lastMessageAt), {
@@ -119,7 +127,7 @@ function ChatItem({
         >
           {isTyping
             ? "Typing..."
-            : (chat.lastMessage?.messageContent ?? "No messages yet...")}
+            : (chat.lastMessageId?.messageContent ?? "No messages yet...")}
         </Text>
       </View>
     </Pressable>

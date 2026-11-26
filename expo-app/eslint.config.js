@@ -1,6 +1,8 @@
-import pluginQuery from "@tanstack/eslint-plugin-query";
+const { defineConfig } = require("eslint/config");
+const expoConfig = require("eslint-config-expo/flat");
+const pluginQuery = require("@tanstack/eslint-plugin-query");
 
-export default [
+module.exports = defineConfig([
+  ...expoConfig,
   ...pluginQuery.configs["flat/recommended"],
-  // Any other config...
-];
+]);

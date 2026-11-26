@@ -36,6 +36,7 @@ export const initializeSocket = (httpServer: Server) => {
       //BRUH
       next();
     } catch (err) {
+      console.error("Socket auth failed:", err);
       return next(new Error("Authentication error"));
     }
   });
@@ -43,6 +44,7 @@ export const initializeSocket = (httpServer: Server) => {
   //user connects to app
   io.on("connection", (socket) => {
     const userId = String(socket.data.user._id);
+    console.log("socket connected: ", socket.id, userId);
     socket.emit("online-users", Array.from(onlineUsers.keys()));
 
     //in case of multiple sessions for a single user, so can store multiple socketIds for a single userId
@@ -75,6 +77,7 @@ export const initializeSocket = (httpServer: Server) => {
 
     //user sends a message to a room
     socket.on("send-message", async ({ roomId, message }) => {
+      console.log("send-message received", { roomId, message, userId });
       //save to db and emit to all users in the room
       try {
         //first try find the chat room and check if the user is a participant

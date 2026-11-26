@@ -28,7 +28,7 @@ const chatSchema = new mongoose.Schema<Chat>(
     }, //array of ids that get their id value from the User collections _id
     lastMessageId: {
       type: mongoose.Types.ObjectId,
-      ref: "Chat",
+      ref: "Message",
       default: null,
     },
     lastMessageAt: {

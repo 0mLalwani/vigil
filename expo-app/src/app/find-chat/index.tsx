@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
-import { useApi } from "../../../lib/axios";
+import { useApi } from "../../../hooks/useAxiosApi";
 import { Chat, User } from "../../../types/allTypes";
 
 export default function FindChat() {
